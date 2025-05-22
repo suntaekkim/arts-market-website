@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 / 로그인 - 아츠 마켓</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Inter 폰트 적용 */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex items-center justify-center min-h-screen">
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white rounded-lg shadow-md p-6 md:p-8 max-w-md mx-auto">
+            <h1 class="text-3xl font-bold text-indigo-700 text-center mb-8">아츠 마켓</h1>
+            
+            <div class="flex border-b border-gray-200 mb-6">
+                <button id="login-tab" class="flex-1 py-3 text-lg font-semibold text-center text-indigo-600 border-b-2 border-indigo-600 focus:outline-none transition-colors duration-200">로그인</button>
+                <button id="signup-tab" class="flex-1 py-3 text-lg font-semibold text-center text-gray-500 hover:text-indigo-600 focus:outline-none transition-colors duration-200">회원가입</button>
+            </div>
+
+            <div id="login-form" class="space-y-6">
+                <div>
+                    <label for="login-email" class="block text-sm font-medium text-gray-700 mb-2">이메일</label>
+                    <input type="email" id="login-email" name="login-email" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium text-gray-700 mb-2">비밀번호</label>
+                    <input type="password" id="login-password" name="login-password" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-gray-900">로그인 유지</label>
+                    </div>
+                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">비밀번호 찾기</a>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-md font-semibold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">로그인</button>
+                
+                <div class="relative mt-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">또는</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button type="button" class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="Google Logo" class="w-5 h-5 mr-2">
+                        Google로 로그인
+                    </button>
+                    <button type="button" class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/KakaoTalk_logo.svg/1200px-KakaoTalk_logo.svg.png" alt="KakaoTalk Logo" class="w-5 h-5 mr-2">
+                        카카오로 로그인
+                    </button>
+                </div>
+            </div>
+
+            <div id="signup-form" class="space-y-6 hidden">
+                <div>
+                    <label for="signup-name" class="block text-sm font-medium text-gray-700 mb-2">이름 <span class="text-red-500">*</span></label>
+                    <input type="text" id="signup-name" name="signup-name" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+                <div>
+                    <label for="signup-email" class="block text-sm font-medium text-gray-700 mb-2">이메일 <span class="text-red-500">*</span></label>
+                    <input type="email" id="signup-email" name="signup-email" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+                <div>
+                    <label for="signup-password" class="block text-sm font-medium text-gray-700 mb-2">비밀번호 <span class="text-red-500">*</span></label>
+                    <input type="password" id="signup-password" name="signup-password" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+                <div>
+                    <label for="signup-confirm-password" class="block text-sm font-medium text-gray-700 mb-2">비밀번호 확인 <span class="text-red-500">*</span></label>
+                    <input type="password" id="signup-confirm-password" name="signup-confirm-password" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+                <div>
+                    <label for="signup-role" class="block text-sm font-medium text-gray-700 mb-2">회원 유형 선택</label>
+                    <select id="signup-role" name="signup-role" class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                        <option value="buyer">구매자 (작품 탐색 및 구매)</option>
+                        <option value="seller">판매자/작가 (작품 등록 및 판매)</option>
+                    </select>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="signup-agree-terms" name="signup-agree-terms" required class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="signup-agree-terms" class="ml-2 block text-sm text-gray-900">
+                        이용 약관 및 개인정보 처리 방침에 동의합니다. <span class="text-red-500">*</span>
+                    </label>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-md font-semibold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">회원가입</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+
+        // Function to switch tabs
+        function showTab(tabName) {
+            if (tabName === 'login') {
+                loginTab.classList.add('border-indigo-600', 'text-indigo-600');
+                loginTab.classList.remove('border-gray-200', 'text-gray-500', 'hover:text-indigo-600');
+                signupTab.classList.remove('border-indigo-600', 'text-indigo-600');
+                signupTab.classList.add('border-gray-200', 'text-gray-500', 'hover:text-indigo-600');
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            } else { // signup
+                signupTab.classList.add('border-indigo-600', 'text-indigo-600');
+                signupTab.classList.remove('border-gray-200', 'text-gray-500', 'hover:text-indigo-600');
+                loginTab.classList.remove('border-indigo-600', 'text-indigo-600');
+                loginTab.classList.add('border-gray-200', 'text-gray-500', 'hover:text-indigo-600');
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+        }
+
+        // Event Listeners for tab clicks
+        loginTab.addEventListener('click', () => showTab('login'));
+        signupTab.addEventListener('click', () => showTab('signup'));
+
+        // Initially show login tab
+        showTab('login');
+    </script>
+</body>
+</html>
