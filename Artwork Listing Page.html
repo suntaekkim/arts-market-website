@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작품 목록 - 아츠 마켓</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <header class="bg-white shadow-sm p-4 md:px-8 flex flex-col md:flex-row items-center justify-between sticky top-0 z-10">
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+            <h1 class="text-2xl font-bold text-indigo-700">
+                <a href="/" class="hover:text-indigo-900 transition-colors duration-200">아츠 마켓</a>
+            </h1>
+            <button class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="메뉴 토글">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        
+        <nav class="hidden md:flex flex-grow justify-center">
+            <ul class="flex space-x-6">
+                <li><a href="/works" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">작품 탐색</a></li>
+                <li><a href="/artists" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">작가</a></li>
+                <li><a href="/galleries" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">갤러리</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex items-center space-x-4 w-full md:w-auto">
+            <div class="relative flex-grow">
+                <input type="text" id="header-search-input" placeholder="작품, 작가, 장르 검색..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+            <a href="/login" class="text-gray-600 hover:text-indigo-700 font-medium hidden sm:block transition-colors duration-200">로그인</a>
+            <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 hidden sm:block">회원가입</a>
+            <a href="/mypage" class="text-gray-600 hover:text-indigo-700 font-medium sm:hidden transition-colors duration-200">마이페이지</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-8">
+        <aside class="lg:w-1/4 bg-white p-6 rounded-lg shadow-md flex-shrink-0">
+            <h2 class="text-xl font-semibold mb-6 text-gray-700">필터</h2>
+            <form id="filter-form" class="space-y-6">
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-2">카테고리</label>
+                    <select id="category" name="category" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md transition-all duration-200">
+                        <option value="">모두</option>
+                        <option value="painting">회화</option>
+                        <option value="sculpture">조각</option>
+                        <option value="photography">사진</option>
+                        <option value="media-art">미디어 아트</option>
+                        <option value="drawing">드로잉</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">가격 범위</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="min-price" name="min-price" placeholder="최소" class="w-1/2 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                        <span class="text-gray-500">-</span>
+                        <input type="number" id="max-price" name="max-price" placeholder="최대" class="w-1/2 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="artist" class="block text-sm font-medium text-gray-700 mb-2">작가</label>
+                    <input type="text" id="artist" name="artist" placeholder="작가 이름 검색" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200">필터 적용</button>
+            </form>
+        </aside>
+
+        <section class="lg:w-3/4">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">탐색 작품</h2>
+            
+            <div class="flex justify-end mb-4">
+                <select id="sort-option" class="p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                    <option value="latest">최신순</option>
+                    <option value="popular">인기순</option>
+                    <option value="price-asc">가격 낮은순</option>
+                    <option value="price-desc">가격 높은순</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <a href="/work/123" class="block">
+                        <img src="https://placehold.co/400x300/A78BFA/FFFFFF?text=작품+이미지+1" alt="작품 제목 1" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">작품 제목 1</h3>
+                            <p class="text-sm text-gray-600">작가 이름 1</p>
+                            <p class="text-md font-bold text-indigo-700 mt-2">₩ 1,000,000</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <a href="/work/124" class="block">
+                        <img src="https://placehold.co/400x300/8B5CF6/FFFFFF?text=작품+이미지+2" alt="작품 제목 2" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">작품 제목 2</h3>
+                            <p class="text-sm text-gray-600">작가 이름 2</p>
+                            <p class="text-md font-bold text-indigo-700 mt-2">₩ 2,500,000</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <a href="/work/125" class="block">
+                        <img src="https://placehold.co/400x300/6D28D9/FFFFFF?text=작품+이미지+3" alt="작품 제목 3" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">작품 제목 3</h3>
+                            <p class="text-sm text-gray-600">작가 이름 3</p>
+                            <p class="text-md font-bold text-indigo-700 mt-2">₩ 500,000</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <a href="/work/126" class="block">
+                        <img src="https://placehold.co/400x300/4C1D95/FFFFFF?text=작품+이미지+4" alt="작품 제목 4" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">작품 제목 4</h3>
+                            <p class="text-sm text-gray-600">작가 이름 4</p>
+                            <p class="text-md font-bold text-indigo-700 mt-2">₩ 3,200,000</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-center mt-8 space-x-2">
+                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200">이전</button>
+                <button class="px-4 py-2 bg-indigo-600 text-white rounded-md">1</button>
+                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200">2</button>
+                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200">3</button>
+                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200">다음</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-6 md:p-8 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 아츠 마켓. 모든 권리 보유.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">개인정보처리방침</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">이용약관</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">고객센터</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOMContentLoaded: HTML 문서가 완전히 로드되고 파싱된 후에 스크립트를 실행합니다.
+        document.addEventListener('DOMContentLoaded', () => {
+            // 헤더 검색 입력 필드
+            const headerSearchInput = document.getElementById('header-search-input');
+            headerSearchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // 기본 폼 제출 방지
+                    console.log('헤더 검색:', headerSearchInput.value);
+                    // 실제 검색 로직 (예: 페이지 리다이렉트 또는 작품 목록 업데이트)
+                    // window.location.href = `/works?search=${encodeURIComponent(headerSearchInput.value)}`;
+                }
+            });
+
+            // 필터 폼 제출 이벤트
+            const filterForm = document.getElementById('filter-form');
+            filterForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // 기본 폼 제출 방지
+
+                const category = document.getElementById('category').value;
+                const minPrice = document.getElementById('min-price').value;
+                const maxPrice = document.getElementById('max-price').value;
+                const artist = document.getElementById('artist').value;
+
+                console.log('필터 적용:', { category, minPrice, maxPrice, artist });
+                // 실제 필터링 로직 (예: 백엔드 API 호출하여 작품 목록 업데이트)
+                // fetch(`/api/works?category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&artist=${artist}`)
+                //     .then(response => response.json())
+                //     .then(data => updateArtworkGrid(data));
+            });
+
+            // 정렬 옵션 변경 이벤트
+            const sortOption = document.getElementById('sort-option');
+            sortOption.addEventListener('change', (event) => {
+                console.log('정렬 기준:', event.target.value);
+                // 실제 정렬 로직 (예: 백엔드 API 호출 또는 클라이언트 측 정렬)
+                // fetch(`/api/works?sort=${event.target.value}`)
+                //     .then(response => response.json())
+                //     .then(data => updateArtworkGrid(data));
+            });
+
+            // 페이지네이션 버튼 클릭 이벤트 (예시)
+            const paginationButtons = document.querySelectorAll('.pagination button');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const pageText = event.target.textContent;
+                    if (pageText === '이전') {
+                        console.log('이전 페이지');
+                    } else if (pageText === '다음') {
+                        console.log('다음 페이지');
+                    } else {
+                        console.log('페이지 이동:', pageText);
+                    }
+                    // 실제 페이지네이션 로직 (예: 특정 페이지의 작품 데이터 로드)
+                });
+            });
+
+            // 모바일 메뉴 토글 (Header의 button 요소에 연결)
+            const mobileMenuButton = document.querySelector('header button.md\\:hidden');
+            const navMenu = document.querySelector('header nav.hidden.md\\:flex'); // 원래 hidden md:flex 상태의 nav
+            const userActions = document.querySelector('header > div:last-child'); // 검색바와 로그인/회원가입 버튼을 포함하는 div
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    navMenu.classList.toggle('hidden'); // 네비게이션 메뉴 토글
+                    navMenu.classList.toggle('flex');
+                    navMenu.classList.toggle('flex-col'); // 세로로 쌓이도록
+                    navMenu.classList.toggle('space-y-2'); // 간격 추가
+                    
+                    // 모바일에서 로그인/회원가입 버튼도 토글 (Header의 flex-grow 부분을 감추기)
+                    userActions.classList.toggle('hidden'); 
+                    userActions.classList.toggle('flex');
+                    userActions.classList.toggle('flex-col');
+                    userActions.classList.toggle('space-y-2');
+                    userActions.classList.toggle('mt-4');
+
+                    // 검색 입력 필드의 너비를 모바일에서 100%로 조정
+                    const searchInputParent = userActions.querySelector('.relative');
+                    if(searchInputParent) {
+                        searchInputParent.classList.toggle('w-full');
+                    }
+                    // 로그인/회원가입 버튼을 모바일에서도 보이도록 처리
+                    userActions.querySelectorAll('a.hidden.sm\\:block').forEach(el => el.classList.toggle('hidden'));
+                    userActions.querySelectorAll('a.sm\\:hidden').forEach(el => el.classList.toggle('hidden'));
+                });
+            }
+        });
+    </script>
+</body>
+</html>

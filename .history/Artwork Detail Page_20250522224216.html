@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작품 상세 - 아츠 마켓</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <header class="bg-white shadow-sm p-4 md:px-8 flex flex-col md:flex-row items-center justify-between sticky top-0 z-10">
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+            <h1 class="text-2xl font-bold text-indigo-700">
+                <a href="/" class="hover:text-indigo-900 transition-colors duration-200">아츠 마켓</a>
+            </h1>
+            <button class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="메뉴 토글">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        
+        <nav class="hidden md:flex flex-grow justify-center">
+            <ul class="flex space-x-6">
+                <li><a href="/works" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">작품 탐색</a></li>
+                <li><a href="/artists" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">작가</a></li>
+                <li><a href="/galleries" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">갤러리</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex items-center space-x-4 w-full md:w-auto">
+            <div class="relative flex-grow">
+                <input type="text" id="header-search-input" placeholder="작품, 작가, 장르 검색..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+            <a href="/login" class="text-gray-600 hover:text-indigo-700 font-medium hidden sm:block transition-colors duration-200">로그인</a>
+            <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 hidden sm:block">회원가입</a>
+            <a href="/mypage" class="text-gray-600 hover:text-indigo-700 font-medium sm:hidden transition-colors duration-200">마이페이지</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white rounded-lg shadow-md p-6 md:p-8 lg:flex lg:space-x-8">
+            <div class="lg:w-1/2 mb-6 lg:mb-0">
+                <img id="main-artwork-image" src="https://placehold.co/800x600/A78BFA/FFFFFF?text=메인+작품+이미지" alt="작품 제목" class="w-full h-auto rounded-lg shadow-sm object-cover">
+                <div class="flex space-x-2 mt-4 overflow-x-auto pb-2">
+                    <img src="https://placehold.co/100x75/A78BFA/FFFFFF?text=썸네일+1" data-full-src="https://placehold.co/800x600/A78BFA/FFFFFF?text=메인+작품+이미지" alt="작품 썸네일 1" class="thumbnail-image w-24 h-18 rounded-md cursor-pointer border-2 border-indigo-500 object-cover">
+                    <img src="https://placehold.co/100x75/8B5CF6/FFFFFF?text=썸네일+2" data-full-src="https://placehold.co/800x600/8B5CF6/FFFFFF?text=작품+이미지+2" alt="작품 썸네일 2" class="thumbnail-image w-24 h-18 rounded-md cursor-pointer border-2 border-transparent hover:border-indigo-500 transition-colors duration-200 object-cover">
+                    <img src="https://placehold.co/100x75/6D28D9/FFFFFF?text=썸네일+3" data-full-src="https://placehold.co/800x600/6D28D9/FFFFFF?text=작품+이미지+3" alt="작품 썸네일 3" class="thumbnail-image w-24 h-18 rounded-md cursor-pointer border-2 border-transparent hover:border-indigo-500 transition-colors duration-200 object-cover">
+                    <img src="https://placehold.co/100x75/4C1D95/FFFFFF?text=썸네일+4" data-full-src="https://placehold.co/800x600/4C1D95/FFFFFF?text=작품+이미지+4" alt="작품 썸네일 4" class="thumbnail-image w-24 h-18 rounded-md cursor-pointer border-2 border-transparent hover:border-indigo-500 transition-colors duration-200 object-cover">
+                    <button id="ar-view-button" class="w-24 h-18 rounded-md bg-gray-100 flex items-center justify-center text-gray-600 text-xs font-medium hover:bg-gray-200 transition-colors duration-200">
+                        <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.555-4.555A8.995 8.995 0 0012 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10a8.995 8.995 0 00-4.555-7.445L15 10zm-5 0h.01M10 14h.01M14 14h.01M14 10h.01"></path></svg>
+                        <span class="hidden sm:block">AR로 보기</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2">
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">작품 제목</h2>
+                <p class="text-xl text-indigo-700 font-semibold mb-4">₩ 1,000,000</p>
+                
+                <div class="mb-6">
+                    <p class="text-lg text-gray-700">
+                        <a href="/artist/artist-name" class="font-medium hover:text-indigo-700 transition-colors duration-200">작가 이름</a>
+                    </p>
+                    <p class="text-sm text-gray-500">2023년 제작</p>
+                </div>
+
+                <div class="text-gray-700 mb-6 space-y-2">
+                    <p><strong>크기:</strong> 100 x 70 x 5 cm</p>
+                    <p><strong>재료:</strong> 유화, 캔버스</p>
+                    <p><strong>카테고리:</strong> 회화</p>
+                </div>
+
+                <p class="text-gray-700 leading-relaxed mb-8">
+                    이 작품은 작가의 최근 시리즈 중 하나로, 자연의 아름다움과 인간의 내면을 탐구합니다. 강렬한 색채와 섬세한 붓 터치가 조화를 이루어 깊은 감동을 선사합니다.
+                    <br><br>
+                    (더 자세한 작품 설명이 여기에 들어갑니다. 작품의 배경, 영감, 기법 등에 대한 내용)
+                </p>
+
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                    <button id="contact-artist-button" class="w-full sm:w-auto bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                        작가에게 문의하기
+                    </button>
+                    <button id="add-to-wishlist-button" class="w-full sm:w-auto bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold text-lg hover:bg-gray-300 transition-colors duration-200 shadow-md">
+                        관심 작품 추가
+                    </button>
+                </div>
+
+                <div class="bg-gray-100 p-6 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">작가 정보</h3>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://placehold.co/80x80/6366F1/FFFFFF?text=작가" alt="작가 프로필" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-400">
+                        <div>
+                            <p class="text-lg font-semibold text-gray-900">작가 이름</p>
+                            <p class="text-sm text-gray-600">한국의 현대 미술 작가</p>
+                            <a href="/artist/artist-name" class="text-indigo-600 hover:underline text-sm mt-1 inline-block">작가 프로필 보기</a>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mt-4 text-sm leading-relaxed">
+                        작가 이름은 (출생 연도)에 태어나 (주요 활동 지역)에서 활동하고 있는 현대 미술 작가입니다. 그의 작품은 주로 (주요 테마)를 다루며, (특징적인 기법)을 통해 독특한 시각적 경험을 제공합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-12">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">관련 작품</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <a href="/work/related-1" class="block">
+                        <img src="https://placehold.co/400x300/A78BFA/FFFFFF?text=관련+작품+1" alt="관련 작품 제목 1" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">관련 작품 제목 1</h3>
+                            <p class="text-sm text-gray-600">작가 이름 A</p>
+                            <p class="text-md font-bold text-indigo-700 mt-2">₩ 800,000</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <a href="/work/related-2" class="block">
+                        <img src="https://placehold.co/400x300/8B5CF6/FFFFFF?text=관련+작품+2" alt="관련 작품 제목 2" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">관련 작품 제목 2</h3>
+                            <p class="text-sm text-gray-600">작가 이름 B</p>
+                            <p class="text-md font-bold text-indigo-700 mt-2">₩ 1,500,000</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-6 md:p-8 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 아츠 마켓. 모든 권리 보유.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">개인정보처리방침</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">이용약관</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">고객센터</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 이미지 갤러리 기능
+            const mainArtworkImage = document.getElementById('main-artwork-image');
+            const thumbnailImages = document.querySelectorAll('.thumbnail-image');
+
+            thumbnailImages.forEach(thumbnail => {
+                thumbnail.addEventListener('click', () => {
+                    // 현재 활성화된 썸네일의 보더 제거
+                    document.querySelector('.thumbnail-image.border-indigo-500')?.classList.remove('border-indigo-500', 'border-2');
+                    document.querySelector('.thumbnail-image.border-indigo-500')?.classList.add('border-transparent');
+
+                    // 클릭된 썸네일을 활성화하고 메인 이미지 변경
+                    mainArtworkImage.src = thumbnail.dataset.fullSrc;
+                    thumbnail.classList.add('border-indigo-500', 'border-2');
+                    thumbnail.classList.remove('border-transparent');
+                });
+            });
+
+            // AR 뷰인룸 버튼 클릭 이벤트
+            const arViewButton = document.getElementById('ar-view-button');
+            if (arViewButton) {
+                arViewButton.addEventListener('click', () => {
+                    alert('AR 뷰인룸 기능은 현재 개발 중입니다! (실제 AR 구현 로직 필요)');
+                    console.log('AR 뷰인룸 버튼 클릭됨.');
+                    // 실제 AR 구현은 ARKit, ARCore, Three.js, A-Frame 등을 활용하여 복잡한 로직이 필요합니다.
+                });
+            }
+
+            // '작가에게 문의하기' 버튼 클릭 이벤트
+            const contactArtistButton = document.getElementById('contact-artist-button');
+            if (contactArtistButton) {
+                contactArtistButton.addEventListener('click', () => {
+                    // 실제로는 모달을 띄우거나, 문의 페이지로 리다이렉트합니다.
+                    console.log('작가에게 문의하기 버튼 클릭됨.');
+                    window.location.href = '/contact-artist-page.html'; // 문의 페이지로 이동 (예시)
+                });
+            }
+
+            // '관심 작품 추가' 버튼 클릭 이벤트
+            const addToWishlistButton = document.getElementById('add-to-wishlist-button');
+            if (addToWishlistButton) {
+                let isAddedToWishlist = false; // 초기 상태 (백엔드에서 가져와야 함)
+                addToWishlistButton.addEventListener('click', () => {
+                    isAddedToWishlist = !isAddedToWishlist;
+                    if (isAddedToWishlist) {
+                        addToWishlistButton.textContent = '관심 작품에 추가됨';
+                        addToWishlistButton.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+                        addToWishlistButton.classList.add('bg-green-600', 'text-white', 'hover:bg-green-700');
+                        alert('관심 작품에 추가되었습니다!');
+                    } else {
+                        addToWishlistButton.textContent = '관심 작품 추가';
+                        addToWishlistButton.classList.remove('bg-green-600', 'text-white', 'hover:bg-green-700');
+                        addToWishlistButton.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+                        alert('관심 작품에서 제거되었습니다.');
+                    }
+                    console.log('관심 작품 상태:', isAddedToWishlist);
+                    // 실제로는 백엔드 API를 호출하여 사용자 관심 작품 목록을 업데이트해야 합니다.
+                });
+            }
+
+            // 모바일 메뉴 토글 (Header의 button 요소에 연결)
+            const mobileMenuButton = document.querySelector('header button.md\\:hidden');
+            const navMenu = document.querySelector('header nav.hidden.md\\:flex'); // 원래 hidden md:flex 상태의 nav
+            const userActions = document.querySelector('header > div:last-child'); // 검색바와 로그인/회원가입 버튼을 포함하는 div
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    navMenu.classList.toggle('hidden'); // 네비게이션 메뉴 토글
+                    navMenu.classList.toggle('flex');
+                    navMenu.classList.toggle('flex-col'); // 세로로 쌓이도록
+                    navMenu.classList.toggle('space-y-2'); // 간격 추가
+                    
+                    userActions.classList.toggle('hidden'); 
+                    userActions.classList.toggle('flex');
+                    userActions.classList.toggle('flex-col');
+                    userActions.classList.toggle('space-y-2');
+                    userActions.classList.toggle('mt-4');
+
+                    const searchInputParent = userActions.querySelector('.relative');
+                    if(searchInputParent) {
+                        searchInputParent.classList.toggle('w-full');
+                    }
+                    userActions.querySelectorAll('a.hidden.sm\\:block').forEach(el => el.classList.toggle('hidden'));
+                    userActions.querySelectorAll('a.sm\\:hidden').forEach(el => el.classList.toggle('hidden'));
+                });
+            }
+        });
+    </script>
+</body>
+</html>

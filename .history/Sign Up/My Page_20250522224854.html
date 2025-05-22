@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - 아츠 마켓</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* 스크롤 애니메이션을 위한 CSS */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <header class="bg-white shadow-sm p-4 md:px-8 flex flex-col md:flex-row items-center justify-between sticky top-0 z-10">
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+            <h1 class="text-2xl font-bold text-indigo-700">
+                <a href="/" class="hover:text-indigo-900 transition-colors duration-200">아츠 마켓</a>
+            </h1>
+            <button class="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="메뉴 토글">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        
+        <nav class="hidden md:flex flex-grow justify-center">
+            <ul class="flex space-x-6">
+                <li><a href="/works" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">작품 탐색</a></li>
+                <li><a href="/artists" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">작가</a></li>
+                <li><a href="/galleries" class="text-gray-600 hover:text-indigo-700 font-medium transition-colors duration-200">갤러리</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex items-center space-x-4 w-full md:w-auto">
+            <div class="relative flex-grow">
+                <input type="text" id="header-search-input" placeholder="작품, 작가, 장르 검색..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+            <a href="/login" class="text-gray-600 hover:text-indigo-700 font-medium hidden sm:block transition-colors duration-200">로그인</a>
+            <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 hidden sm:block">회원가입</a>
+            <a href="/mypage" class="text-gray-600 hover:text-indigo-700 font-medium sm:hidden transition-colors duration-200">마이페이지</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-8">
+        <aside class="lg:w-1/4 bg-white p-6 rounded-lg shadow-md flex-shrink-0">
+            <div class="flex items-center space-x-4 mb-6">
+                <img src="https://placehold.co/80x80/6366F1/FFFFFF?text=프로필" alt="사용자 프로필" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-400">
+                <div>
+                    <p class="text-xl font-semibold text-gray-900">김아츠님</p>
+                    <p class="text-sm text-gray-600">buyer@example.com</p>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <a href="#my-info" class="sidebar-link block py-2 px-4 rounded-md text-indigo-700 bg-indigo-50 font-medium hover:bg-indigo-100 transition-colors duration-200">내 정보</a>
+                <a href="#wishlist" class="sidebar-link block py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">관심 작품</a>
+                <a href="#my-inquiries" class="sidebar-link block py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">보낸 문의 내역</a>
+                <a href="#purchase-history" class="sidebar-link block py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">구매 내역</a>
+                <hr class="my-4 border-gray-200">
+                <a href="#artist-profile" class="sidebar-link block py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">작가 프로필 관리</a>
+                <a href="#my-artworks" class="sidebar-link block py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">내 작품 관리</a>
+                <a href="#received-inquiries" class="sidebar-link block py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">받은 문의 확인</a>
+                <button id="logout-button" class="w-full text-left py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">로그아웃</button>
+            </nav>
+        </aside>
+
+        <section class="lg:w-3/4 bg-white p-6 rounded-lg shadow-md">
+            <div id="my-info" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">내 정보</h2>
+                <form id="my-info-form" class="space-y-4">
+                    <div>
+                        <label for="user-name" class="block text-sm font-medium text-gray-700 mb-1">이름</label>
+                        <input type="text" id="user-name" value="김아츠" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50" readonly>
+                    </div>
+                    <div>
+                        <label for="user-email" class="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+                        <input type="email" id="user-email" value="buyer@example.com" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50" readonly>
+                    </div>
+                    <div>
+                        <label for="user-phone" class="block text-sm font-medium text-gray-700 mb-1">연락처</label>
+                        <input type="tel" id="user-phone" value="010-1234-5678" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50" readonly>
+                    </div>
+                    <button type="button" id="edit-info-button" class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">정보 수정</button>
+                </form>
+            </div>
+
+            <div id="wishlist" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">관심 작품</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 rounded-lg shadow-sm overflow-hidden flex items-center space-x-4 p-3">
+                        <img src="https://placehold.co/80x80/A78BFA/FFFFFF?text=관심1" alt="관심 작품 1" class="w-20 h-20 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-gray-900 truncate">관심 작품 제목 1</p>
+                            <p class="text-sm text-gray-600">작가 이름 X</p>
+                            <p class="text-md font-bold text-indigo-700">₩ 700,000</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg shadow-sm overflow-hidden flex items-center space-x-4 p-3">
+                        <img src="https://placehold.co/80x80/8B5CF6/FFFFFF?text=관심2" alt="관심 작품 2" class="w-20 h-20 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-gray-900 truncate">관심 작품 제목 2</p>
+                            <p class="text-sm text-gray-600">작가 이름 Y</p>
+                            <p class="text-md font-bold text-indigo-700">₩ 1,200,000</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 mt-4 text-center">더 많은 관심 작품이 여기에 표시됩니다.</p>
+            </div>
+
+            <div id="my-inquiries" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">보낸 문의 내역</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-md shadow-sm">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-left text-sm font-semibold">
+                                <th class="py-3 px-4 rounded-tl-md">작품</th>
+                                <th class="py-3 px-4">문의 제목</th>
+                                <th class="py-3 px-4">전송일</th>
+                                <th class="py-3 px-4 rounded-tr-md">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm text-gray-800">작품 제목 A</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">작품 구매 문의</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">2025-05-20</td>
+                                <td class="py-3 px-4 text-sm text-blue-600 font-medium">답변 대기 중</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm text-gray-800">작품 제목 B</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">배송 관련 문의</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">2025-05-15</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">답변 완료</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="purchase-history" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">구매 내역</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-md shadow-sm">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-left text-sm font-semibold">
+                                <th class="py-3 px-4 rounded-tl-md">주문 번호</th>
+                                <th class="py-3 px-4">작품</th>
+                                <th class="py-3 px-4">구매일</th>
+                                <th class="py-3 px-4">금액</th>
+                                <th class="py-3 px-4 rounded-tr-md">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm text-gray-800">#20250522-001</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">작품 제목 C</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">2025-05-22</td>
+                                <td class="py-3 px-4 text-sm text-gray-800">₩ 1,500,000</td>
+                                <td class="py-3 px-4 text-sm text-green-600 font-medium">배송 완료</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="artist-profile" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">작가 프로필 관리</h2>
+                <p class="text-gray-700 mb-4">작가 프로필을 수정하고, 소개를 업데이트할 수 있습니다.</p>
+                <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">프로필 편집</button>
+            </div>
+
+            <div id="my-artworks" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">내 작품 관리</h2>
+                <p class="text-gray-700 mb-4">등록된 작품을 확인하고, 새로운 작품을 등록하거나 수정할 수 있습니다.</p>
+                <div class="flex space-x-4">
+                    <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">새 작품 등록</button>
+                    <button class="bg-gray-200 text-gray-800 px-5 py-2 rounded-md hover:bg-gray-300 transition-colors duration-200">등록 작품 목록</button>
+                </div>
+            </div>
+
+            <div id="received-inquiries" class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">받은 문의 확인</h2>
+                <p class="text-gray-700 mb-4">구매자로부터 받은 문의 내역을 확인하고 답변할 수 있습니다.</p>
+                <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">문의 목록 보기</button>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-6 md:p-8 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 아츠 마켓. 모든 권리 보유.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">개인정보처리방침</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">이용약관</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">고객센터</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 사이드바 링크 클릭 시 스크롤 이동
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+
+                        // 사이드바 링크 활성화 상태 변경 (시각적 피드백)
+                        sidebarLinks.forEach(item => {
+                            item.classList.remove('text-indigo-700', 'bg-indigo-50', 'font-medium');
+                            item.classList.add('text-gray-700');
+                        });
+                        link.classList.add('text-indigo-700', 'bg-indigo-50', 'font-medium');
+                        link.classList.remove('text-gray-700');
+                    }
+                });
+            });
+
+            // 내 정보 수정 기능
+            const editInfoButton = document.getElementById('edit-info-button');
+            const userNameInput = document.getElementById('user-name');
+            const userPhoneInput = document.getElementById('user-phone');
+            const myInfoForm = document.getElementById('my-info-form');
+
+            let isEditing = false; // 수정 모드 여부
+
+            editInfoButton.addEventListener('click', () => {
+                isEditing = !isEditing; // 상태 토글
+
+                if (isEditing) {
+                    // 수정 모드 활성화
+                    userNameInput.readOnly = false;
+                    userPhoneInput.readOnly = false;
+                    userNameInput.classList.remove('bg-gray-50');
+                    userPhoneInput.classList.remove('bg-gray-50');
+                    userNameInput.classList.add('focus:ring-indigo-500', 'focus:border-indigo-500');
+                    userPhoneInput.classList.add('focus:ring-indigo-500', 'focus:border-indigo-500');
+                    editInfoButton.textContent = '정보 저장';
+                    editInfoButton.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    editInfoButton.classList.add('bg-green-600', 'hover:bg-green-700');
+                    alert('정보를 수정할 수 있습니다.');
+                } else {
+                    // 저장 모드 활성화 (수정된 정보 저장)
+                    userNameInput.readOnly = true;
+                    userPhoneInput.readOnly = true;
+                    userNameInput.classList.add('bg-gray-50');
+                    userPhoneInput.classList.add('bg-gray-50');
+                    userNameInput.classList.remove('focus:ring-indigo-500', 'focus:border-indigo-500');
+                    userPhoneInput.classList.remove('focus:ring-indigo-500', 'focus:border-indigo-500');
+                    editInfoButton.textContent = '정보 수정';
+                    editInfoButton.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    editInfoButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                    
+                    const updatedName = userNameInput.value;
+                    const updatedPhone = userPhoneInput.value;
+
+                    console.log('수정된 정보:', { name: updatedName, phone: updatedPhone });
+                    alert('정보가 저장되었습니다! (실제로는 백엔드로 전송)');
+                    // 실제로는 백엔드 API를 호출하여 사용자 정보를 업데이트합니다.
+                }
+            });
+
+            // 로그아웃 버튼 클릭 이벤트
+            const logoutButton = document.getElementById('logout-button');
+            logoutButton.addEventListener('click', () => {
+                const confirmLogout = confirm('정말 로그아웃하시겠습니까?');
+                if (confirmLogout) {
+                    console.log('로그아웃 처리됨');
+                    alert('로그아웃되었습니다.');
+                    // 실제 로그아웃 로직 (예: 세션 삭제, 토큰 제거 후 로그인 페이지로 리다이렉트)
+                    window.location.href = '/auth.html'; // 로그인/회원가입 페이지로 이동 (예시)
+                }
+            });
+
+            // 모바일 메뉴 토글 (Header의 button 요소에 연결)
+            const mobileMenuButton = document.querySelector('header button.md\\:hidden');
+            const navMenu = document.querySelector('header nav.hidden.md\\:flex'); 
+            const userActions = document.querySelector('header > div:last-child'); 
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    navMenu.classList.toggle('hidden'); 
+                    navMenu.classList.toggle('flex');
+                    navMenu.classList.toggle('flex-col'); 
+                    navMenu.classList.toggle('space-y-2'); 
+                    
+                    userActions.classList.toggle('hidden'); 
+                    userActions.classList.toggle('flex');
+                    userActions.classList.toggle('flex-col');
+                    userActions.classList.toggle('space-y-2');
+                    userActions.classList.toggle('mt-4');
+
+                    const searchInputParent = userActions.querySelector('.relative');
+                    if(searchInputParent) {
+                        searchInputParent.classList.toggle('w-full');
+                    }
+                    userActions.querySelectorAll('a.hidden.sm\\:block').forEach(el => el.classList.toggle('hidden'));
+                    userActions.querySelectorAll('a.sm\\:hidden').forEach(el => el.classList.toggle('hidden'));
+                });
+            }
+        });
+    </script>
+</body>
+</html>
